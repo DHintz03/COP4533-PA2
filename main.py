@@ -35,6 +35,36 @@ def first_in_first_out(k: int, m: int, requests: List[int]) -> int:
     return misses
 
 
+def least_recently_used(k: int, m: int, requests: List[int]) -> int:
+    cache = []
+    cache_size = 0
+    misses = 0
+    hits = 0
+
+    for r in requests:
+        found = False
+        for c in cache:
+            if c[0] == r:
+                hits += 1
+                c[1] = -1
+                found = True
+            c[1] += 1
+        if not found:
+            misses += 1
+            if cache_size < k:
+                cache_size += 1
+                cache.append([r, 0])
+            else:
+                lru_index = 0
+                max = 0
+                for i in range(len(cache)):
+                    if cache[i][1] > max:
+                        max = cache[i][1]
+                        lru_index = i
+                cache[lru_index][0] = r
+                cache[lru_index][1] = 0
+    return misses
+
 
 def read_input() -> tuple[int, int, List[int]]:
     # If an input file exists under ./cache_input, use the first one.
@@ -57,7 +87,7 @@ def main() -> None:
     print(requests)
 
     fifo = first_in_first_out(k, m, requests)
-    lru = 0
+    lru = least_recently_used(k, m, requests)
     optff = 0
 
     print("FIFO \t:", fifo)
