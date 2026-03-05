@@ -32,6 +32,7 @@ def first_in_first_out(k: int, m: int, requests: List[int]) -> int:
                         first_index = i
                 cache[first_index][0] = r
                 cache[first_index][1] = 0
+    #print(cache)
     return misses
 
 
@@ -63,6 +64,7 @@ def least_recently_used(k: int, m: int, requests: List[int]) -> int:
                         lru_index = i
                 cache[lru_index][0] = r
                 cache[lru_index][1] = 0
+    #print(cache)
     return misses
 
 
@@ -133,13 +135,13 @@ def farthest_in_future(k: int, m: int, requests: List[int]) -> int:
                 else:
                     c[1] = 9999
                 cache[farthest_index][1] = 0
-        print(cache)
+        #print(cache)
     return misses
 
 
 def read_input() -> tuple[int, int, List[int]]:
     # If an input file exists under ./cache_input, use the first one.
-    file = open("cache_input/input.in", "r")
+    file = open("cache_input/input.txt", "r")
     line_0 = file.readline()
     line_1 = file.readline()
     k, m = line_0.strip().split()
@@ -153,18 +155,30 @@ def read_input() -> tuple[int, int, List[int]]:
 def main() -> None:
     #Main file
     k, m, requests = read_input()
-    print(k)
-    print(m)
-    print(requests)
+    #print(k)
+    #print(m)
+    #print(requests)
 
     fifo = first_in_first_out(k, m, requests)
     lru = least_recently_used(k, m, requests)
     optff = farthest_in_future(k, m, requests)
 
-    print("FIFO \t:", fifo)
-    print("LRU  \t:", lru)
-    print("OPTFF\t:", optff)
+    fifo_out = "FIFO \t: " + str(fifo) + "\n"
+    lru_out = "LRU  \t: " + str(lru) + "\n"
+    optff_out = "OPTFF \t: " + str(optff) + "\n"
 
+    #print(fifo_out)
+    #print(lru_out)
+    #print(optff_out)
+
+    try:
+        file = open("cache_output/output.txt", "w")
+    except:
+        file = open("cache_output/output.txt", "x")
+    #print(fifo_out, file=file)
+    file.write(fifo_out)
+    file.write(lru_out)
+    file.write(optff_out)
 
 if __name__ == "__main__":
     main()
