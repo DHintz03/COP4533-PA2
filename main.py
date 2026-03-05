@@ -66,6 +66,77 @@ def least_recently_used(k: int, m: int, requests: List[int]) -> int:
     return misses
 
 
+def farthest_in_future(k: int, m: int, requests: List[int]) -> int:
+    cache = []
+    cache_size = 0
+    misses = 0
+    hits = 0
+
+    for r in range(len(requests)):
+        found = False
+        for c in cache:
+            if c[0] == requests[r]:
+                hits += 1
+                found = True
+
+                distance = 0
+                repeats = False
+                for j in range(r+1, len(requests)):
+                    distance += 1
+                    if requests[j] == c[0]:
+                        repeats = True
+                        break
+                if repeats:
+                    c[1] = distance + 1
+                else:
+                    c[1] = 9999
+            if c[1] != 9999:
+                c[1] -= 1
+            #print("distance: ", c[1])
+        if not found:
+            misses += 1
+            if cache_size < k:
+                cache_size += 1
+
+                distance = 0
+                repeats = False
+                for j in range(r + 1, len(requests)):
+                    distance += 1
+                    if requests[j] == requests[r]:
+                        repeats = True
+                        break
+                if repeats:
+                    cache.append([requests[r], distance])
+                    #print(" nf distance: ", distance)
+                else:
+                    cache.append([requests[r], 9999])
+                    #print(" nf distance:  9999")
+
+            else:
+                farthest_index = 0
+                max = 0
+                for i in range(len(cache)):
+                    if cache[i][1] > max:
+                        max = cache[i][1]
+                        farthest_index = i
+                cache[farthest_index][0] = requests[r]
+
+                distance = 0
+                repeats = False
+                for j in range(r + 1, len(requests)):
+                    distance += 1
+                    if requests[j] == c[0]:
+                        repeats = True
+                        break
+                if repeats:
+                    c[1] = distance
+                else:
+                    c[1] = 9999
+                cache[farthest_index][1] = 0
+        print(cache)
+    return misses
+
+
 def read_input() -> tuple[int, int, List[int]]:
     # If an input file exists under ./cache_input, use the first one.
     file = open("cache_input/input.in", "r")
@@ -88,7 +159,7 @@ def main() -> None:
 
     fifo = first_in_first_out(k, m, requests)
     lru = least_recently_used(k, m, requests)
-    optff = 0
+    optff = farthest_in_future(k, m, requests)
 
     print("FIFO \t:", fifo)
     print("LRU  \t:", lru)
