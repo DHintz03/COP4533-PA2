@@ -127,14 +127,13 @@ def farthest_in_future(k: int, m: int, requests: List[int]) -> int:
                 repeats = False
                 for j in range(r + 1, len(requests)):
                     distance += 1
-                    if requests[j] == c[0]:
+                    if requests[j] == requests[r]:
                         repeats = True
                         break
                 if repeats:
-                    c[1] = distance
+                    cache[farthest_index][1] = distance
                 else:
-                    c[1] = 9999
-                cache[farthest_index][1] = 0
+                    cache[farthest_index][1] = 9999
         #print(cache)
     return misses
 
