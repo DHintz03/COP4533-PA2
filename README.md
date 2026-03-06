@@ -10,7 +10,7 @@
 	- The value `k` is an integer representing the size of the cache. `k` must be at least 1.
 	- `m` is an integer representing number of requests being made.
  	- `r_1, r_2, ..., r_m` are a series of integer ID values that will be requested of the cache. Leave one space between each integer and ensure the amount of requests equals the value substituted for `m`.
-- Optionally, copy and paste the contents of `input1.txt`, `input2.txt`, or `input3.txt` into `input.txt`.
+- Optionally, copy and paste the contents of `example1.txt`, `example2.txt`, or `example3.txt` into `input.txt`.
 - Return to the `COP4533-PA2` directory and run:
   ```
   python main.py
@@ -22,6 +22,10 @@
 - `m` equals the number of requests `r_1, r_2, ..., r_m`.
 - `m < 9999`.
 - `k`, `m`, and `r_1, r_2, ..., r_m` are integer values.
+
+### Example Files:
+- The `cache_input` directory contains files `example1.txt`, `example2.txt`, and `example3.txt`.
+- The outputs for the data contained in these are in the `cache_output` directory, in `output1.txt`, `output2.txt`, and `output3.txt`, respectively.
 
 ## Questions
 
