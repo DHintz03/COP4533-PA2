@@ -149,8 +149,16 @@ def farthest_in_future(k: int, m: int, requests: List[int]) -> int:
                 else:
                     # Set distance to a large value if the item ID does not repeat
                     cache[farthest_index][1] = 9999
-        #print(cache)
     return misses
+
+
+def verify_input(k: int, m: int, requests: List[int]) -> None:
+    if k < 1:
+        raise ValueError("k must be at least 1")
+    if m < 1:
+        raise ValueError("m must be at least 1")
+    if m != len(requests):
+        raise IndexError("m does not match number of requests")
 
 
 def read_input() -> tuple[int, int, List[int]]:
@@ -168,6 +176,7 @@ def read_input() -> tuple[int, int, List[int]]:
 
 def main() -> None:
     k, m, requests = read_input()
+    verify_input(k, m, requests)
 
     fifo = first_in_first_out(k, m, requests)
     lru = least_recently_used(k, m, requests)
